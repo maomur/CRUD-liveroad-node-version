@@ -1,0 +1,29 @@
+extends layout.pug 
+
+block content 
+    .container.bg-light 
+        h2.text-center.p-3 Items
+        .d-flex 
+            H3.col-2 PICKUP
+            H3.col-2 LOAD
+            H3.col-3 O-City 
+            H3.col-3 D-City 
+        hr
+        .d-flex.flex-wrap
+            each registro in registros
+                H4.col-2.p-2= registro.pu
+                H4.col-2.p-2= registro.loadnumber
+                H4.col-3.p-2= registro.ocity
+                H4.col-3.p-2= registro.dcity
+                div.col-2.d-flex.justify-content-end
+                    a(href='detail/'+registro.id)
+                     i.bi.bi-eye.text-primary.iconsize
+                    a(href='detail/'+registro.id)
+                     i.bi.bi-pencil-square.text-warning.iconsize
+                    a(href='delete/'+registro.id)
+                     i.bi.bi-trash3-fill.text-danger.iconsize                     
+        hr
+    
+            
+
+            

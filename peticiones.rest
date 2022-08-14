@@ -1,0 +1,79 @@
+###
+GET http://localhost:3330/detail/26
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoibWFvbXVyIiwicGFzc3dvcmQiOiIkMmEkMTEkNHc1dTlHYVQ0R2t2bjZEVUZBMDFtZWV5NUE5SEkvelZDUnA5bmNnMFNxdmNHdURRUDhySXkiLCJpYXQiOjE2NjA0NzQ0OTAsImV4cCI6MTY2MDQ3NjI5MH0.F1goYv1czn4pCT-UOL_PM6no-TU7hQCymMLggcnOkJA
+
+
+
+###
+PUT http://localhost:3330/update/20
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoibWFvbXVyIiwicGFzc3dvcmQiOiIkMmEkMTEkNHc1dTlHYVQ0R2t2bjZEVUZBMDFtZWV5NUE5SEkvelZDUnA5bmNnMFNxdmNHdURRUDhySXkiLCJpYXQiOjE2NjA0NzQzMjUsImV4cCI6MTY2MDQ3NjEyNX0.AyRLpg5e-lO3j5SKExrO2T1v_oagFvEAUChPBjd1MpY
+Content-Type: application/json
+
+{
+    "pu": "2021-01-01",
+    "del": "2021-02-02",
+    "loadnumber": "Este Load",
+    "ocity": "Ocity Madrid",
+    "dcity": "Decity Medellín",
+    "commodity": "Plata y Oro",
+    "brokercompany": "Trans Nations",
+    "brokername": "Alejandro Loisí Chávez",
+    "brokerphone": 1223234,
+    "phoneextension": "ext 121",
+    "rate": 1200,
+    "truck": "alfatruck",
+    "paidunpaid": "paid"
+}
+
+
+###
+POST http://localhost:3330/create
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hb211ciIsInBhc3N3b3JkIjoiJDJhJDExJDR3NXU5R2FUNEdrdm42RFVGQTAxbWVleTVBOUhJL3pWQ1JwOW5jZzBTcXZjR3VEUVA4ckl5IiwiaWF0IjoxNjYwNDEyNTQ0LCJleHAiOjE2NjA0MTMxNDR9.5GIG5sHNqNTGS5hPeZqZ1GPAiyAt9_7lPyQHnXYVuNI
+Content-Type: application/json
+
+{
+    "pu": "2021-01-01",
+    "del": "2021-02-02",
+    "loadnumber": "Este Load",
+    "ocity": "Ocity Madrid",
+    "dcity": "Decity Barcelona",
+    "commodity": "Plata y Oro",
+    "brokercompany": "Trans Nations",
+    "brokername": "Alejandro Loisí",
+    "brokerphone": 1223234,
+    "phoneextension": "ext 121",
+    "rate": 1200,
+    "truck": "alfatruck",
+    "paidunpaid": "paid"
+}
+
+
+
+### CREAR USUARIO
+POST http://localhost:3330/createUser
+Content-Type: application/json
+
+{
+    "username": "invitado",
+    "pass": "123456"
+}
+
+###
+GET http://localhost:3330/data
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoibWFvbXVyIiwicGFzc3dvcmQiOiIkMmEkMTEkNHc1dTlHYVQ0R2t2bjZEVUZBMDFtZWV5NUE5SEkvelZDUnA5bmNnMFNxdmNHdURRUDhySXkiLCJpYXQiOjE2NjA0NzQ0OTAsImV4cCI6MTY2MDQ3NjI5MH0.F1goYv1czn4pCT-UOL_PM6no-TU7hQCymMLggcnOkJA
+
+###
+GET http://localhost:3330/detail/27 
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoibWFvbXVyIiwicGFzc3dvcmQiOiIkMmEkMTEkNHc1dTlHYVQ0R2t2bjZEVUZBMDFtZWV5NUE5SEkvelZDUnA5bmNnMFNxdmNHdURRUDhySXkiLCJpYXQiOjE2NjA0NzQ0OTAsImV4cCI6MTY2MDQ3NjI5MH0.F1goYv1czn4pCT-UOL_PM6no-TU7hQCymMLggcnOkJA
+
+###
+GET http://localhost:3330/usuario/14
+
+### LOGIN
+POST http://localhost:3330/login
+Content-Type: application/json
+
+{
+    "username": "maomur",
+    "pass": "Alianzar...1"
+}

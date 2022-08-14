@@ -1,0 +1,55 @@
+extends layout.pug
+
+block content
+    .container.bg-light.p-5
+        h2 Item Details 
+            hr
+            div.grid-details
+                div.mt-3
+                    h3 PickUp:
+                    H4.p-2= registro.pu
+                div.mt-3 
+                    h3 Delivery:
+                    H4.p-2= registro.del
+                div.mt-3 
+                    h3 Load Number:
+                    H4.p-2= registro.loadnumber 
+                div.mt-3 
+                    h3 Origin City:
+                    H4.p-2= registro.ocity 
+                div.mt-3 
+                    h3 Destiny City:
+                    H4.p-2= registro.dcity 
+                div.mt-3 
+                    h3 Commodity:
+                    H4.p-2= registro.commodity
+                div.mt-3 
+                    h3 Broker Company:
+                    H4.p-2= registro.brokercompany
+                div.mt-3 
+                    h3 Broker Name:
+                    H4.p-2= registro.brokername
+                div.mt-3 
+                    h3 Broker Phone:
+                    H4.p-2= registro.brokerphone
+                div.mt-3 
+                    h3 Phone Extension:
+                    H4.p-2= registro.phoneextension
+                div.mt-3 
+                    h3 Rate:
+                    H4.p-2= registro.rate 
+                div.mt-3 
+                    h3 Truck:
+                    H4.p-2= registro.truck
+                div.mt-3 
+                    h3 Paid / Unpaid:
+                    H4.p-2= registro.paidunpaid
+                
+                a.btn.btn-dark(href="/data") Back
+                a.btn.btn-primary(href="/update/"+registro.id) Edit
+                a.btn.btn-danger(href="/delete/"+registro.id) Delete
+
+ 
+            
+        
+

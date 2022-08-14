@@ -1,0 +1,38 @@
+extends layout.pug
+
+block content 
+    form.container.bg-light.p-4(action="/create" method="POST")
+        div.grid-section
+            div
+                smal.text-dark PICKUP 
+                input.form-control(type="date" name="pu")
+            div
+                smal.text-dark DELIVERY
+                input.form-control(name="del" type="date")
+            div
+                input.form-control(name="loadnumber" type="text" placeholder="Load Number")
+            div
+                input.form-control(name="ocity" type="text" placeholder="O-city")
+            div
+                input.form-control(name="dcity" type="text" placeholder="D-city")
+            div
+                input.form-control(name="commodity" type="text" placeholder="Commodity")
+            div
+                input.form-control(name="brokercompany" type="text" placeholder="Broker Company")
+            div
+                input.form-control(name="brokername" type="text" placeholder="Broker Name")
+            div
+                input.form-control(name="brokerphone" type="number" placeholder="Broker Phone")
+            div
+                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension")
+            div
+                input.form-control(name="rate" type="number" placeholder="$Rate")
+            div
+                input.form-control(name="truck" type="text" placeholder="Truck Number")
+            div
+                select.form-control(name="paidunpaid")
+                    option(value="Unselect") -- Paid / Unpaid --
+                    option(value="Paid") Paid
+                    option(value="Unpaid") Unpaid
+            div
+                input.btn.main-color.text-light(type="submit" value="Save")

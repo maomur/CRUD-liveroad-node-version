@@ -1,0 +1,88 @@
+body {
+  padding: 10px;
+  background: black;
+}
+
+h1 {
+  font-size: 3rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+h4 {
+  font-size: 0.8rem;
+}
+
+.dark {
+  background-color: rgb(26, 26, 26);
+}
+
+.main-color {
+  background-color: #b1181a;
+}
+
+.logo {
+  width: 30%;
+  min-width: 200px;
+}
+
+a {
+  color: white;
+}
+
+a:hover {
+  color: black;
+  font-weight: 600;
+}
+
+.grid-section {
+  display: grid;
+  align-items: flex-end;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.grid-items {
+  display: grid;
+  align-items: flex-end;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.grid-details {
+  display: grid;
+  align-items: flex-end;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.flex-container {
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-container-div {
+  background-color: rgba(255, 255, 255, 0.959);
+  padding: 5%;
+  border-radius: 1rem;
+}
+
+.iconsize {
+  font-size: 1.2rem;
+  padding-right: 0.6rem;
+  padding-top: 5px;
+}
+
+.footer {
+  font-size: 0.8rem;
+  text-align: right;
+  padding: 0.8rem;
+}
