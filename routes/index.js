@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
 // GET
 
 // Recuperar Todos los Registros
-router.get('/data', checkToken, async (req, res) => {
+router.get('/data', async (req, res) => {
   console.log('Console desde todos los registros', req.usuario)
   const [arrRegistros] = await RegistroModel.getAll();
 
@@ -38,7 +38,7 @@ router.get('/new', (req, res) => {
 
 
 // Ver un Único Registro
-router.get('/detail/:registroId', checkToken, async (req, res) => {
+router.get('/detail/:registroId', async (req, res) => {
   try {
     const [resultado] = await RegistroModel.getById(req.params.registroId);
     for (registro of resultado) {
@@ -54,7 +54,7 @@ router.get('/detail/:registroId', checkToken, async (req, res) => {
 });
 
 //CREAR REGISTRO
-router.post('/create', checkToken, async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
     const [resultado] = await RegistroModel.create(req.body);
     res.redirect('/data')
@@ -64,8 +64,8 @@ router.post('/create', checkToken, async (req, res) => {
   }
 })
 
-// Actualizar un Registro
-router.put('/update/:registroId', checkToken, async (req, res) => {
+// Actualizar un Registro OJOOOO PUT/POST
+router.put('/update/:registroId', async (req, res) => {
   const resultado = await RegistroModel.update(req.params.registroId, req.body);
 })
 
@@ -81,7 +81,7 @@ router.get('/usuario/:usuarioId', async (req, res) => {
 })
 
 // Eliminar un Usuario
-router.get('/delete/:registroId', checkToken, async (req, res) => {
+router.get('/delete/:registroId', async (req, res) => {
   const [resultado] = await RegistroModel.deleteById(req.params.registroId);
   res.redirect('/data')
 });

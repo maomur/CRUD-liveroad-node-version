@@ -6,7 +6,8 @@ const registroModel = require('../models/Registro.model')
 const checkToken = async (req, res, next) => {
 
     if (!req.headers['authorization']) {
-        return res.status(401).json({ error: 'Debes incluir la cabecera de autorización' })
+        //return res.status(401).json({ error: 'Debes incluir la cabecera de autorización' })
+        return res.redirect('/')
     }
     const token = req.headers['authorization'];
 

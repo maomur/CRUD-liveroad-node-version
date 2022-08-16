@@ -44,11 +44,16 @@ block content
                 div.mt-3 
                     h3 Paid / Unpaid:
                     H4.p-2= registro.paidunpaid
-                
-                a.btn.btn-dark(href="/data") Back
-                a.btn.btn-primary(href="/update/"+registro.id) Edit
-                a.btn.btn-danger(href="/delete/"+registro.id) Delete
-
+                div.d-flex.flex-column
+                    div.p-1
+                        a.w-100.btn.btn-dark(href="/data") Back
+                    div.p-1 
+                        a.w-100.btn.btn-primary(href="/update/"+registro.id) Edit
+                div.d-flex.flex-column
+                    div.p-1
+                        a.w-100.btn.btn-success(href="/new") New
+                    div.p-1
+                        a.w-100.btn.btn-danger(href="/delete/"+registro.id) Delete
  
             
         
