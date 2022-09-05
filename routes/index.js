@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const RegistroModel = require('../models/registro.model');
+const RegistroModel = require('../models/Registro.model');
 const dayjs = require('dayjs');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
-const { checkToken } = require('../routes/middlewares')
+const { checkToken } = require('../routes/middlewares');
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -18,17 +18,21 @@ router.get('/', function (req, res) {
 
 // Recuperar Todos los Registros
 router.get('/data', async (req, res) => {
-  console.log('Console desde todos los registros', req.usuario)
-  const [arrRegistros] = await RegistroModel.getAll();
 
-  for (registro of arrRegistros) {
-    registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
-  }
+  try {
+    const [arrRegistros] = await RegistroModel.getAll();
 
-  res.render('list', {
-    registros: arrRegistros
-  })
-})
+    for (registro of arrRegistros) {
+      registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
+    }
+
+    res.render('list', {
+      registros: arrRegistros
+    })
+  } catch (error) { console.log(error) }
+
+}
+)
 
 
 // Formulario de Registro
@@ -36,6 +40,10 @@ router.get('/new', (req, res) => {
   res.render('form');
 })
 
+//Buscar por Load
+router.get('/:registroId', async (req, res) => {
+  const [resultado] = await RegistroModel.getByLoad(req.params.registroId);
+})
 
 // Ver un Único Registro
 router.get('/detail/:registroId', async (req, res) => {
@@ -53,20 +61,36 @@ router.get('/detail/:registroId', async (req, res) => {
   }
 });
 
+
+// ELIMINAR UN REGISTRO
+router.get('/delete/:registroId', async (req, res) => {
+  const [resultado] = await RegistroModel.deleteById(req.params.registroId);
+  res.redirect('/data')
+});
+
+
+// EDITAR REGISTRO (CAPTURA DE DATOS DEL FORM)
+router.get('/edit/:registroId', async (req, res) => {
+  const [resultado] = await RegistroModel.getById(req.params.registroId);
+  for (registro of resultado) {
+    registro.pu = dayjs(registro.pu).format('YYYY-MM-DD')
+    registro.del = dayjs(registro.del).format('YYYY-MM-DD');
+  }
+  res.render('editForm', {
+    registro: resultado[0]
+  })
+});
+
 //CREAR REGISTRO
 router.post('/create', async (req, res) => {
-  try {
-    const [resultado] = await RegistroModel.create(req.body);
-    res.redirect('/data')
-  }
-  catch (err) {
-    res.json({ error: err.message })
-  }
+  const [resultado] = await RegistroModel.create(req.body);
+  res.redirect('/data')
 })
 
-// Actualizar un Registro OJOOOO PUT/POST
-router.put('/update/:registroId', async (req, res) => {
-  const resultado = await RegistroModel.update(req.params.registroId, req.body);
+// Actualizar un Registro POST
+router.post('/update', async (req, res) => {
+  const resultado = await RegistroModel.update(req.body.registroId, req.body);
+  res.redirect('/detail/' + req.body.registroId)
 })
 
 
@@ -80,11 +104,6 @@ router.get('/usuario/:usuarioId', async (req, res) => {
   //console.log(resultado)
 })
 
-// Eliminar un Usuario
-router.get('/delete/:registroId', async (req, res) => {
-  const [resultado] = await RegistroModel.deleteById(req.params.registroId);
-  res.redirect('/data')
-});
 
 // Crear un Usuario
 router.post('/createUser',
@@ -101,7 +120,6 @@ router.post('/createUser',
 
 // Login de Usuario 
 router.post('/login', async (req, res) => {
-  console.log(req.usuario)
   const [resultado] = await RegistroModel.getByUser(req.body.username);
   if (resultado.length === 0) {
     return res.json({ error: 'Error en usuario y/o contraseña' })

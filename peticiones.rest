@@ -28,7 +28,7 @@ Content-Type: application/json
 
 ###
 POST http://localhost:3330/create
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hb211ciIsInBhc3N3b3JkIjoiJDJhJDExJDR3NXU5R2FUNEdrdm42RFVGQTAxbWVleTVBOUhJL3pWQ1JwOW5jZzBTcXZjR3VEUVA4ckl5IiwiaWF0IjoxNjYwNDEyNTQ0LCJleHAiOjE2NjA0MTMxNDR9.5GIG5sHNqNTGS5hPeZqZ1GPAiyAt9_7lPyQHnXYVuNI
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTQsInVzZXJuYW1lIjoibWFvbXVyIiwicGFzc3dvcmQiOiIkMmEkMTEkNHc1dTlHYVQ0R2t2bjZEVUZBMDFtZWV5NUE5SEkvelZDUnA5bmNnMFNxdmNHdURRUDhySXkiLCJpYXQiOjE2NjIzODIwNzgsImV4cCI6MTY2MjM4Mzg3OH0.wEMPWYN3bF72xjj-FCAlA-GacnlLgJlF4JKPagCBVyQ
 Content-Type: application/json
 
 {
@@ -77,3 +77,6 @@ Content-Type: application/json
     "username": "maomur",
     "pass": "Alianzar...1"
 }
+
+###
+GET http://localhost:3330/update/39

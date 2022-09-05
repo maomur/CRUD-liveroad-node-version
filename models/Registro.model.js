@@ -7,12 +7,17 @@ const create = ({ pu, del, loadnumber, ocity, dcity, commodity, brokercompany, b
 
 // Ver Todos los Registros
 const getAll = () => {
-    return db.query('SELECT * FROM liveroad.registros')
+    return db.query('SELECT * FROM liveroad.registros');
 }
 
 // Ver un Único Registro
 const getById = (registroId) => {
     return db.query('SELECT * FROM liveroad.registros WHERE id = ?', [registroId])
+}
+
+// Buscar por Load
+const getByLoad = (loadnumber) => {
+    return db.query('SELECT * FROM liveroad.registros WHERE loadnumber = ?', [loadnumber])
 }
 
 
@@ -49,5 +54,5 @@ const getByUser = (username) => {
 
 
 module.exports = {
-    create, deleteById, getAll, getById, update, createUser, getByUser, getUser
+    getByLoad, create, deleteById, getAll, getById, update, createUser, getByUser, getUser
 }

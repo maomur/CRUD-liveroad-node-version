@@ -1,6 +1,11 @@
 const jwt = require('jsonwebtoken');
 const registroModel = require('../models/Registro.model')
 
+const confirmar = function () {
+    confirm('presok')
+}
+
+
 // --->  MIDDLEWARE CHECKTOKEN  < -- \\
 
 const checkToken = async (req, res, next) => {
@@ -23,5 +28,5 @@ const checkToken = async (req, res, next) => {
 }
 
 module.exports = {
-    checkToken
+    checkToken, confirmar
 }

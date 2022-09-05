@@ -1,0 +1,45 @@
+extends layout.pug
+
+block content 
+    form.container.bg-light.p-4(action="/update" method="POST")
+        div.grid-section
+            div
+                smal.text-dark PICKUP 
+                input.form-control(type="date" name="pu" value=registro.pu)
+            div
+                smal.text-dark DELIVERY
+                input.form-control(name="del" type="date" value=registro.del)
+            div
+                input.form-control(name="loadnumber" type="text" placeholder="Load Number" value=registro.loadnumber)
+            div
+                input.form-control(name="ocity" type="text" placeholder="O-city" value=registro.ocity)
+            div
+                input.form-control(name="dcity" type="text" placeholder="D-city" value=registro.dcity)
+            div
+                input.form-control(name="commodity" type="text" placeholder="Commodity" value=registro.commodity)
+            div
+                input.form-control(name="brokercompany" type="text" placeholder="Broker Company" value=registro.brokercompany)
+            div
+                input.form-control(name="brokername" type="text" placeholder="Broker Name" value=registro.brokername)
+            div
+                input.form-control(name="brokerphone" type="number" placeholder="Broker Phone" value=registro.brokerphone)
+            div
+                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension" value=registro.phoneextension)
+            div
+                input.form-control(name="rate" type="number" placeholder="$Rate" value=registro.rate)
+            div
+                input.form-control(name="truck" type="text" placeholder="Truck Number" value=registro.truck)
+            div
+                select.form-control(name="paidunpaid" selectElement.options[selectElement.selectedIndex].value)
+                    option(value="Unselect") -- Paid / Unpaid --
+                    option(value="Paid") Paid
+                    option(value="Unpaid") Unpaid
+
+            input(type="hidden", name='registroId', value=registro.id)
+            div.d-flex
+                div.p-1
+                    input.btn.main-color.text-light(type="submit" value="Save")
+                div.p-1
+                    a.btn.bg-dark.text-light(href ="/data" value="Cancel") Cancelar
+
+

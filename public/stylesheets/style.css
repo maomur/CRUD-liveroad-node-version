@@ -86,3 +86,7 @@ a:hover {
   text-align: right;
   padding: 0.8rem;
 }
+
+.btnhover:hover {
+  background-color: black;
+}

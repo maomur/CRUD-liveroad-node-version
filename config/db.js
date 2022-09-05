@@ -8,4 +8,5 @@ const pool = mysql.createPool({
     port: process.env.DB_PORT
 });
 
+
 global.db = pool.promise();
