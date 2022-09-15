@@ -80,3 +80,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3330/update/39
+
+###
+GET http://localhost:3330/searchl/Av9290-029

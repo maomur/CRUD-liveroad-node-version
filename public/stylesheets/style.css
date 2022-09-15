@@ -90,3 +90,51 @@ a:hover {
 .btnhover:hover {
   background-color: black;
 }
+
+.text-modal {
+  font-size: 1rem;
+}
+
+.autocomplete-results {
+  background-color: white;
+  padding: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: none;
+  position: absolute;
+  margin-top: 3px;
+}
+
+.autocomplete-resultsDcity {
+  background-color: white;
+  padding: 1rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: none;
+  position: absolute;
+  margin-top: 3px;
+}
+
+.autocomplete-results li {
+  list-style: none;
+  color: rgb(73, 73, 73);
+  padding: 3px;
+  cursor: pointer;
+}
+
+.autocomplete-resultsDcity li {
+  list-style: none;
+  color: rgb(73, 73, 73);
+  padding: 3px;
+  cursor: pointer;
+}
+
+.autocomplete-results li:hover {
+  color: black;
+  font-weight: 600;
+}
+
+.autocomplete-resultsDcity li:hover {
+  color: black;
+  font-weight: 600;
+}

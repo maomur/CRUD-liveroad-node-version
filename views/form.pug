@@ -5,32 +5,35 @@ block content
         div.grid-section
             div
                 smal.text-dark PICKUP 
-                input.form-control(type="date" name="pu")
+                input.form-control(type="date" name="pu" required)
             div
                 smal.text-dark DELIVERY
                 input.form-control(name="del" type="date")
             div
-                input.form-control(name="loadnumber" type="text" placeholder="Load Number")
+                input.form-control(name="loadnumber" type="text" placeholder="Load Number" required)
+            div.autocomplete
+                input.form-control(name="ocity" type="text" placeholder="O-City" id="autocomplete-input")
+                ul.autocomplete-results(id="autocomplete-results")
+            div.autocompleteDcity
+                input.form-control(name="dcity" type="text" placeholder="D-City" id="autocomplete-inputDcity")
+                ul.autocomplete-resultsDcity(id="autocomplete-resultsDcity")
+
             div
-                input.form-control(name="ocity" type="text" placeholder="O-city")
+                input.form-control(name="commodity" type="text" placeholder="Commodity" required)
             div
-                input.form-control(name="dcity" type="text" placeholder="D-city")
+                input.form-control(name="brokercompany" type="text" placeholder="Broker Company" required)
             div
-                input.form-control(name="commodity" type="text" placeholder="Commodity")
+                input.form-control(name="brokername" type="text" placeholder="Broker Name" required)
             div
-                input.form-control(name="brokercompany" type="text" placeholder="Broker Company")
+                input.form-control(name="brokerphone" id="brokerPhone" type="text" placeholder="Broker Phone"  required)
             div
-                input.form-control(name="brokername" type="text" placeholder="Broker Name")
+                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension" required)
             div
-                input.form-control(name="brokerphone" type="number" placeholder="Broker Phone")
+                input.form-control(name="rate" type="number" placeholder="$Rate" required)
             div
-                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension")
+                input.form-control(name="truck" type="text" placeholder="Truck Number" required)
             div
-                input.form-control(name="rate" type="number" placeholder="$Rate")
-            div
-                input.form-control(name="truck" type="text" placeholder="Truck Number")
-            div
-                select.form-control(name="paidunpaid")
+                select.form-control(name="paidunpaid" required)
                     option(value="Unselect") -- Paid / Unpaid --
                     option(value="Paid") Paid
                     option(value="Unpaid") Unpaid
@@ -39,3 +42,121 @@ block content
                     input.btn.main-color.text-light(type="submit" value="Save")
                 div.p-1
                     a.btn.bg-dark.text-light(href ="/data" value="Cancel") Cancelar
+
+    script.
+            //Autocomplete Ocity Input
+            let inputOcity = document.getElementById('autocomplete-input');
+            let autocomplete_results = document.getElementById('autocomplete-results')
+            inputOcity.addEventListener('keyup', (e)=>{
+            autocomplete_results.style.display = "block"
+                let key = e.target.value;
+                if(key.length > 1){
+                    search(key)
+                }
+            });
+
+
+            const search = (key)=>{
+                fetch(`https://restcountries.com/v3.1/name/${key}`)
+                .then( (res) => res.json())
+                .then( (data) => {
+                    if(Array.isArray(data)){
+                    build_list(data.map( (item)=>{
+                        return item.name.common
+                    }))
+                    } else{
+                      autocomplete_results.innerHTML = `<li>No hay resultados</li>`
+                    }
+                })
+                .catch( (error)=>console.log(error))
+            }
+
+            const build_list = (items = [])=>{
+                autocomplete_results.innerHTML = "";
+                items.map( (item)=>{
+                    autocomplete_results.innerHTML += `<li>${item}</li>`
+                })
+            }
+
+            autocomplete_results.addEventListener('click', (e)=>{
+                if(e.target && e.target.nodeName == 'LI'){
+                    inputOcity.value = e.target.innerHTML;
+                    build_list();
+                    autocomplete_results.style.display = "none"
+
+                }
+            })
+
+            // ------------ end ----------------
+
+
+            //Autocomplete Dcity Input
+            let inputDcity = document.getElementById('autocomplete-inputDcity');
+            let autocomplete_resultsDcity = document.getElementById('autocomplete-resultsDcity')
+            inputDcity.addEventListener('keyup', (e)=>{
+            autocomplete_resultsDcity.style.display = "block"
+                let key = e.target.value;
+                if(key.length > 1){
+                    searchDcity(key)
+                }
+            });
+
+
+            const searchDcity = (key)=>{
+                fetch(`https://restcountries.com/v3.1/name/${key}`)
+                .then( (res) => res.json())
+                .then( (data) => {
+                    if(Array.isArray(data)){
+                    build_listDcity(data.map( (item)=>{
+                        return item.name.common
+                    }))
+                    } else{
+                      autocomplete_resultsDcity.innerHTML = `<li>No hay resultados</li>`
+                    }
+                })
+                .catch( (error)=>console.log(error))
+            }
+
+            const build_listDcity = (items = [])=>{
+                autocomplete_resultsDcity.innerHTML = "";
+                items.map( (item)=>{
+                    autocomplete_resultsDcity.innerHTML += `<li>${item}</li>`
+                })
+            }
+
+            autocomplete_resultsDcity.addEventListener('click', (e)=>{
+                if(e.target && e.target.nodeName == 'LI'){
+                    inputDcity.value = e.target.innerHTML;
+                    build_listDcity();
+                    autocomplete_resultsDcity.style.display = "none"
+
+                }
+            })
+
+            // ------------ end ----------------
+
+            //Format Phone
+            const brokerPhoneInput = document.getElementById("brokerPhone");
+            brokerPhoneInput.addEventListener("keypress", phonenumberFormatter);
+            
+            function phonenumberFormatter(){
+            const inputField = document.getElementById('brokerPhone');
+            const formattedInputValue = formatPhoneNumber(inputField.value);
+            inputField.value = formattedInputValue;
+            };
+
+
+            function formatPhoneNumber(value){
+                if (!value) return value;
+                const phoneNumber = value.replace(/[^\d]/g, '');
+                const phoneNumberLength = phoneNumber.length;
+                if (phoneNumberLength < 4) return phoneNumber;
+                if (phoneNumberLength < 7) {
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+                }
+                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+                3,
+                6
+                )}-${phoneNumber.slice(6, 9)}`;
+            }
+            //-------------- End --------------------------

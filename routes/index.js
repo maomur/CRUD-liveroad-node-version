@@ -1,76 +1,100 @@
-const express = require('express');
-const router = express.Router();
 const RegistroModel = require('../models/Registro.model');
 const dayjs = require('dayjs');
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
-const { checkToken } = require('../routes/middlewares');
+const { checkToken, auth } = require('../routes/middlewares');
 
-/* GET home page. */
-router.get('/', function (req, res) {
+
+const express = require('express');
+const router = express.Router();
+
+// Ruta Usuario e Index
+router.get('/', (req, res) => {
   res.render('index')
+})
+
+// Validación Usuario:
+router.post('/auth', auth, (req, res) => {
+  // console.log('usuario', req.body.username);
+  // console.log('constraseña', req.body.pass);
+  // console.log('Hola auth res data')
+  res.redirect('/data')
+})
+
+// Hacer Login
+router.post('/login', async function (req, res) {
+  const username = req.body.username;
+  const pass = req.body.pass;
+  if (!username || !pass || username != "maomur" || pass != "Alianzar...1") {
+    res.redirect('/');
+  } else if (username === "maomur" && pass === "Alianzar...1") {
+    req.session.username = "maomur";
+    req.session.admin = true;
+    res.redirect('/data');
+  }
 });
+
+// Logout
+router.get('/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
+})
 
 // --->  PETICIONES DE REGISTROS  < -- \\
 
 // GET
 
 // Recuperar Todos los Registros
-router.get('/data', async (req, res) => {
+router.get('/data', auth, async (req, res) => {
 
-  try {
-    const [arrRegistros] = await RegistroModel.getAll();
+  let arrRegistros;
 
-    for (registro of arrRegistros) {
-      registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
-    }
+  if (req.query.search) {
+    [arrRegistros] = await RegistroModel.getByLoad(req.query.search);
+  } else {
+    arrRegistros = (await RegistroModel.getAll())[0];
+  }
 
-    res.render('list', {
-      registros: arrRegistros
-    })
-  } catch (error) { console.log(error) }
-
+  for (registro of arrRegistros) {
+    registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
+  }
+  res.render('list', {
+    registros: arrRegistros
+  })
 }
 )
 
-
 // Formulario de Registro
-router.get('/new', (req, res) => {
+router.get('/new', auth, (req, res) => {
   res.render('form');
 })
 
-//Buscar por Load
-router.get('/:registroId', async (req, res) => {
-  const [resultado] = await RegistroModel.getByLoad(req.params.registroId);
-})
-
 // Ver un Único Registro
-router.get('/detail/:registroId', async (req, res) => {
-  try {
-    const [resultado] = await RegistroModel.getById(req.params.registroId);
-    for (registro of resultado) {
-      registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
-      registro.del = dayjs(registro.del).format('MM-DD-YYYY');
-    }
-    res.render('detail', {
-      registro: resultado[0]
-    })
-  } catch (err) {
-    res.json({ error: err.message })
+router.get('/detail/:registroId', auth, async (req, res) => {
+
+  const [resultado] = await RegistroModel.getById(req.params.registroId);
+
+  const dolar = resultado[0].rate;
+
+  for (registro of resultado) {
+    registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
+    registro.del = dayjs(registro.del).format('MM-DD-YYYY');
+    registro.rate = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(dolar)
   }
+  res.render('detail', {
+    registro: resultado[0]
+  })
 });
 
-
 // ELIMINAR UN REGISTRO
-router.get('/delete/:registroId', async (req, res) => {
+router.get('/delete/:registroId', auth, async (req, res) => {
   const [resultado] = await RegistroModel.deleteById(req.params.registroId);
   res.redirect('/data')
 });
 
-
 // EDITAR REGISTRO (CAPTURA DE DATOS DEL FORM)
-router.get('/edit/:registroId', async (req, res) => {
+router.get('/edit/:registroId', auth, async (req, res) => {
   const [resultado] = await RegistroModel.getById(req.params.registroId);
   for (registro of resultado) {
     registro.pu = dayjs(registro.pu).format('YYYY-MM-DD')
@@ -82,28 +106,26 @@ router.get('/edit/:registroId', async (req, res) => {
 });
 
 //CREAR REGISTRO
-router.post('/create', async (req, res) => {
+router.post('/create', auth, async (req, res) => {
   const [resultado] = await RegistroModel.create(req.body);
   res.redirect('/data')
 })
 
 // Actualizar un Registro POST
-router.post('/update', async (req, res) => {
+router.post('/update', auth, async (req, res) => {
   const resultado = await RegistroModel.update(req.body.registroId, req.body);
   res.redirect('/detail/' + req.body.registroId)
 })
 
 
-
 // --->  PETICIONES DE USUARIOS  < -- \\
 
 // Recuperar un Único Usuario
-router.get('/usuario/:usuarioId', async (req, res) => {
+router.get('/usuario/:usuarioId', auth, async (req, res) => {
   const [resultado] = await RegistroModel.getUser(req.params.usuarioId);
   res.send(resultado)
   //console.log(resultado)
 })
-
 
 // Crear un Usuario
 router.post('/createUser',
@@ -118,26 +140,6 @@ router.post('/createUser',
     res.redirect('/data');
   })
 
-// Login de Usuario 
-router.post('/login', async (req, res) => {
-  const [resultado] = await RegistroModel.getByUser(req.body.username);
-  if (resultado.length === 0) {
-    return res.json({ error: 'Error en usuario y/o contraseña' })
-  }
-
-  const usuario = resultado[0];
-  const iguales = bcrypt.compareSync(req.body.pass, usuario.pass);
-
-  if (iguales) {
-    res.json({ success: 'Login correcto', token: createToken(usuario) })
-  } else {
-    console.log('No login')
-    res.json({ error: 'Error en email y/o contraseña' })
-  }
-})
-
-
-
 // --->  CREACIÓN DE TOKEN  < -- \\
 function createToken(usuario) {
   const payload = {
@@ -148,9 +150,5 @@ function createToken(usuario) {
 
   return jwt.sign(payload, 'alianzared', { expiresIn: '30m' })
 };
-
-
-
-
 
 module.exports = router;

@@ -5,35 +5,37 @@ block content
         div.grid-section
             div
                 smal.text-dark PICKUP 
-                input.form-control(type="date" name="pu" value=registro.pu)
+                input.form-control(type="date" name="pu" value=registro.pu required)
             div
                 smal.text-dark DELIVERY
                 input.form-control(name="del" type="date" value=registro.del)
             div
-                input.form-control(name="loadnumber" type="text" placeholder="Load Number" value=registro.loadnumber)
+                input.form-control(name="loadnumber" type="text" placeholder="Load Number" value=registro.loadnumber required)
+            div.autocomplete
+                input.form-control(name="ocity" type="text" placeholder="O-City" id="autocomplete-input" value=registro.ocity required)
+                ul.autocomplete-results(id="autocomplete-results")
+            div.autocompleteDcity
+                input.form-control(name="dcity" type="text" placeholder="D-City" id="autocomplete-inputDcity" value=registro.dcity required)
+                ul.autocomplete-resultsDcity(id="autocomplete-resultsDcity")
             div
-                input.form-control(name="ocity" type="text" placeholder="O-city" value=registro.ocity)
+                input.form-control(name="commodity" type="text" placeholder="Commodity" value=registro.commodity required)
             div
-                input.form-control(name="dcity" type="text" placeholder="D-city" value=registro.dcity)
+                input.form-control(name="brokercompany" type="text" placeholder="Broker Company" value=registro.brokercompany required)
             div
-                input.form-control(name="commodity" type="text" placeholder="Commodity" value=registro.commodity)
+                input.form-control(name="brokername" type="text" placeholder="Broker Name" value=registro.brokername required)
             div
-                input.form-control(name="brokercompany" type="text" placeholder="Broker Company" value=registro.brokercompany)
+                input.form-control(name="brokerphone" id="brokerPhone" type="text" placeholder="Broker Phone" value=registro.brokerphone required)
             div
-                input.form-control(name="brokername" type="text" placeholder="Broker Name" value=registro.brokername)
+                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension" value=registro.phoneextension required)
             div
-                input.form-control(name="brokerphone" type="number" placeholder="Broker Phone" value=registro.brokerphone)
+                input.form-control(name="rate" type="number" placeholder="$Rate" value=registro.rate required)
             div
-                input.form-control(name="phoneextension" type="text" placeholder="Phone Extension" value=registro.phoneextension)
+                input.form-control(name="truck" type="text" placeholder="Truck Number" value=registro.truck required)
             div
-                input.form-control(name="rate" type="number" placeholder="$Rate" value=registro.rate)
-            div
-                input.form-control(name="truck" type="text" placeholder="Truck Number" value=registro.truck)
-            div
-                select.form-control(name="paidunpaid" selectElement.options[selectElement.selectedIndex].value)
-                    option(value="Unselect") -- Paid / Unpaid --
-                    option(value="Paid") Paid
-                    option(value="Unpaid") Unpaid
+                select.form-control(name="paidunpaid" id="paidunpaid")
+                    option(value="unselect") -- Paid / Unpaid --
+                    option(value="paid") Paid
+                    option(value="unpaid") Unpaid
 
             input(type="hidden", name='registroId', value=registro.id)
             div.d-flex
@@ -43,3 +45,128 @@ block content
                     a.btn.bg-dark.text-light(href ="/data" value="Cancel") Cancelar
 
 
+            script. 
+                const brokerPhoneInput = document.getElementById("brokerPhone");
+                brokerPhoneInput.addEventListener("keypress", phonenumberFormatter);
+                
+                function phonenumberFormatter(){
+                    const inputField = document.getElementById('brokerPhone');
+                    const formattedInputValue = formatPhoneNumber(inputField.value);
+                    inputField.value = formattedInputValue;
+                };
+
+
+                function formatPhoneNumber(value){
+                    if (!value) return value;
+                    const phoneNumber = value.replace(/[^\d]/g, '');
+                    const phoneNumberLength = phoneNumber.length;
+                    if (phoneNumberLength < 4) return phoneNumber;
+                    if (phoneNumberLength < 7) {
+                    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+                    }
+                    return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
+                    3,
+                    6
+                    )}-${phoneNumber.slice(6, 9)}`;
+                }       
+                const paidunpaidValue = '#{registro.paidunpaid}';
+                const selectPaid = document.getElementById('paidunpaid');
+                const arr = [...selectPaid.options];
+                const index = arr.findIndex( (item)=>{
+                    return item.value === paidunpaidValue;
+                })
+                selectPaid.options[index].selected = true;
+
+    script.
+        //Autocomplete Ocity Input
+            let inputOcity = document.getElementById('autocomplete-input');
+            let autocomplete_results = document.getElementById('autocomplete-results')
+            inputOcity.addEventListener('keyup', (e)=>{
+            autocomplete_results.style.display = "block"
+                let key = e.target.value;
+                if(key.length > 1){
+                    search(key)
+                }
+            });
+
+
+            const search = (key)=>{
+                fetch(`https://restcountries.com/v3.1/name/${key}`)
+                .then( (res) => res.json())
+                .then( (data) => {
+                    if(Array.isArray(data)){
+                    build_list(data.map( (item)=>{
+                        return item.name.common
+                    }))
+                    } else{
+                      autocomplete_results.innerHTML = `<li>No hay resultados</li>`
+                    }
+                })
+                .catch( (error)=>console.log(error))
+            }
+
+            const build_list = (items = [])=>{
+                autocomplete_results.innerHTML = "";
+                items.map( (item)=>{
+                    autocomplete_results.innerHTML += `<li>${item}</li>`
+                })
+            }
+
+            autocomplete_results.addEventListener('click', (e)=>{
+                if(e.target && e.target.nodeName == 'LI'){
+                    inputOcity.value = e.target.innerHTML;
+                    build_list();
+                    autocomplete_results.style.display = "none"
+
+                }
+            })
+
+            // ------------ end ----------------
+
+
+            //Autocomplete Dcity Input
+            let inputDcity = document.getElementById('autocomplete-inputDcity');
+            let autocomplete_resultsDcity = document.getElementById('autocomplete-resultsDcity')
+            inputDcity.addEventListener('keyup', (e)=>{
+            autocomplete_resultsDcity.style.display = "block"
+                let key = e.target.value;
+                if(key.length > 1){
+                    searchDcity(key)
+                }
+            });
+
+
+            const searchDcity = (key)=>{
+                fetch(`https://restcountries.com/v3.1/name/${key}`)
+                .then( (res) => res.json())
+                .then( (data) => {
+                    if(Array.isArray(data)){
+                    build_listDcity(data.map( (item)=>{
+                        return item.name.common
+                    }))
+                    } else{
+                      autocomplete_resultsDcity.innerHTML = `<li>No hay resultados</li>`
+                    }
+                })
+                .catch( (error)=>console.log(error))
+            }
+
+            const build_listDcity = (items = [])=>{
+                autocomplete_resultsDcity.innerHTML = "";
+                items.map( (item)=>{
+                    autocomplete_resultsDcity.innerHTML += `<li>${item}</li>`
+                })
+            }
+
+            autocomplete_resultsDcity.addEventListener('click', (e)=>{
+                if(e.target && e.target.nodeName == 'LI'){
+                    inputDcity.value = e.target.innerHTML;
+                    build_listDcity();
+                    autocomplete_resultsDcity.style.display = "none"
+
+                }
+            })
+
+            // ------------ end ---------------- 
+            
+                

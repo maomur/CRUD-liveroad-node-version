@@ -6,44 +6,44 @@ block content
             hr
             div.grid-details
                 div.mt-3
-                    h3 PickUp:
-                    H4.p-2= registro.pu
+                    h4.text-secondary PickUp:
+                    h3.p-2= registro.pu
                 div.mt-3 
-                    h3 Delivery:
-                    H4.p-2= registro.del
+                    h4.text-secondary Delivery:
+                    h3.p-2= registro.del
                 div.mt-3 
-                    h3 Load Number:
-                    H4.p-2= registro.loadnumber 
+                    h4.text-secondary Load Number:
+                    h3.p-2= registro.loadnumber 
                 div.mt-3 
-                    h3 Origin City:
-                    H4.p-2= registro.ocity 
+                    h4.text-secondary Origin City:
+                    h3.p-2= registro.ocity 
                 div.mt-3 
-                    h3 Destiny City:
-                    H4.p-2= registro.dcity 
+                    h4.text-secondary Destiny City:
+                    h3.p-2= registro.dcity 
                 div.mt-3 
-                    h3 Commodity:
-                    H4.p-2= registro.commodity
+                    h4.text-secondary Commodity:
+                    h3.p-2= registro.commodity
                 div.mt-3 
-                    h3 Broker Company:
-                    H4.p-2= registro.brokercompany
+                    h4.text-secondary Broker Company:
+                    h3.p-2= registro.brokercompany
                 div.mt-3 
-                    h3 Broker Name:
-                    H4.p-2= registro.brokername
+                    h4.text-secondary Broker Name:
+                    h3.p-2= registro.brokername
                 div.mt-3 
-                    h3 Broker Phone:
-                    H4.p-2= registro.brokerphone
+                    h4.text-secondary Broker Phone:
+                    h3.p-2= registro.brokerphone
                 div.mt-3 
-                    h3 Phone Extension:
-                    H4.p-2= registro.phoneextension
+                    h4.text-secondary Phone Extension:
+                    h3.p-2= registro.phoneextension
                 div.mt-3 
-                    h3 Rate:
-                    H4.p-2= registro.rate 
+                    h4.text-secondary Rate:
+                    h3.p-2= registro.rate 
                 div.mt-3 
-                    h3 Truck:
-                    H4.p-2= registro.truck
+                    h4.text-secondary Truck:
+                    h3.p-2= registro.truck
                 div.mt-3 
-                    h3 Paid / Unpaid:
-                    H4.p-2= registro.paidunpaid
+                    h4.text-secondary Paid / Unpaid:
+                    h3.p-2= registro.paidunpaid
                 div.d-flex.flex-column
                     div.p-1
                         a.w-100.btn.btn-dark(href="/data") Back
@@ -53,8 +53,16 @@ block content
                     div.p-1
                         a.w-100.btn.btn-success(href="/new") New
                     div.p-1
-                        a.w-100.btn.btn-danger(href="/delete/"+registro.id) Delete
+                        a.w-100.btn.btn-danger.text-light(data-bs-toggle="modal" data-bs-target="#exampleModal") Delete
  
             
-        
-
+            div.modal.fade(id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
+                div.modal-dialog
+                    div.modal-content
+                        div.modal-header.main-color.text-light
+                            h5.modal-title(id="exampleModalLabel") Warning!
+                        div.modal-body
+                            p.text-modal Item will be deleted, are you sure?
+                        div.modal-footer
+                            button.btn.btn-dark(type="button" data-bs-dismiss="modal") Cancel
+                            a.btn.main-color(href='/delete/'+registro.id) Yes, delete item

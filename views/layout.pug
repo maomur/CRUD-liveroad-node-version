@@ -1,25 +1,27 @@
 doctype html
 html
   head
+    
     title= title
     link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css')
+    link(rel='icon' type='image/x-icon' href='/images/favicon-liveroad.png')
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css')
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
+    
 
   body
     div.dark.container.d-flex.justify-content-center.align-items-center
       a(href="/data")
         img(src="/images/liveroad-logo.png", alt="logo liveroad").logo
-      i.bi.bi-x-circle-fill.text-danger.iconsize 
+      a(href="/logout") Logout 
+        i.bi.bi-x-circle-fill.text-danger.iconsize 
       small.text-danger
     div.container.main-color.p-2.grid-section 
       h2.text-light.mx-auto Control Manager
-      form(action="").d-flex
-        input.form-control(type="text" placeholder="Load Number...")
-        a.btn.dark.text-light(href='/') Search
+      form(action="/data" method="GET").d-flex
+        input.form-control(type="text" name="search" placeholder="Load Number...")
+        input.btn.dark.text-light(type="submit" value="Search")
     block content
     
   script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js", integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13", crossorigin="anonymous")

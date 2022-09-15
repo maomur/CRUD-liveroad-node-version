@@ -3,10 +3,14 @@ extends home
 block content
     div.container
         div.flex-container
-            form.flex-container-div(action="/data" method="GET")
+            form.flex-container-div(action="/login" method="POST")
                 div.p-1
-                    input.form-control(type="text" placeholder="Username" name="user" required)
+                    input.form-control(type="text" placeholder="Username" id="username" name="username")
                 div.p-1
-                    input.form-control(type="password" placeholder="Contraseña" name="Password" required)
+                    input.form-control(type="password" placeholder="Contraseña" id="pass" name="pass")
                 div.p-1
-                    input.btn.main-color.text-light.form-control.btnhover(type="submit" value="Login") 
+                    input.btn.main-color.text-light.form-control.btnhover(type="submit" value="Login")
+            
+    script. 
+
+      
