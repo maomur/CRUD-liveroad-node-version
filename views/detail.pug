@@ -49,20 +49,8 @@ block content
                         a.w-100.btn.btn-dark(href="/data") Back
                     div.p-1 
                         a.w-100.btn.btn-primary(href="/edit/"+registro.id) Edit
-                div.d-flex.flex-column
                     div.p-1
                         a.w-100.btn.btn-success(href="/new") New
                     div.p-1
-                        a.w-100.btn.btn-danger.text-light(data-bs-toggle="modal" data-bs-target="#exampleModal") Delete
- 
-            
-            div.modal.fade(id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
-                div.modal-dialog
-                    div.modal-content
-                        div.modal-header.main-color.text-light
-                            h5.modal-title(id="exampleModalLabel") Warning!
-                        div.modal-body
-                            p.text-modal Item will be deleted, are you sure?
-                        div.modal-footer
-                            button.btn.btn-dark(type="button" data-bs-dismiss="modal") Cancel
-                            a.btn.main-color(href='/delete/'+registro.id) Yes, delete item
+                        a.w-100.btn.btn-danger.text-light(href='/delete/'+registro.id onclick='return confirm("Item will be deleted, are you sure?")') Delete
+    

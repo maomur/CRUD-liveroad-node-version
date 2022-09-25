@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken');
 const { checkToken, auth } = require('../routes/middlewares');
-
+const fs = require('fs');
+const xlsx = require('xlsx');
+const jsonObject = require('../public/files/archivo.json');
 
 const express = require('express');
 const router = express.Router();
@@ -26,10 +28,11 @@ router.post('/auth', auth, (req, res) => {
 router.post('/login', async function (req, res) {
   const username = req.body.username;
   const pass = req.body.pass;
-  if (!username || !pass || username != "maomur" || pass != "Alianzar...1") {
+
+  if (!username || !pass || username != "adminliveroad" || pass != "#23603-Katy") {
     res.redirect('/');
-  } else if (username === "maomur" && pass === "Alianzar...1") {
-    req.session.username = "maomur";
+  } else if (username === "adminliveroad" && pass === "#23603-Katy") {
+    req.session.username = "adminliveroad";
     req.session.admin = true;
     res.redirect('/data');
   }
@@ -53,14 +56,17 @@ router.get('/data', auth, async (req, res) => {
   if (req.query.search) {
     [arrRegistros] = await RegistroModel.getByLoad(req.query.search);
   } else {
-    arrRegistros = (await RegistroModel.getAll())[0];
+    arrRegistros = (await RegistroModel.getAll())[0]; //OBJETO
+    //console.log('ARRREGISTROS', (arrRegistros));
+    [locations] = (await RegistroModel.getLoc());
   }
 
   for (registro of arrRegistros) {
-    registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
+    registro.pu = dayjs(registro.pu).format('MM-DD-YY')
   }
   res.render('list', {
-    registros: arrRegistros
+    registros: arrRegistros,
+    locations: locations
   })
 }
 )
@@ -70,25 +76,25 @@ router.get('/new', auth, (req, res) => {
   res.render('form');
 })
 
+
 // Ver un Único Registro
 router.get('/detail/:registroId', auth, async (req, res) => {
-
   const [resultado] = await RegistroModel.getById(req.params.registroId);
-
   const dolar = resultado[0].rate;
 
   for (registro of resultado) {
-    registro.pu = dayjs(registro.pu).format('MM-DD-YYYY')
-    registro.del = dayjs(registro.del).format('MM-DD-YYYY');
+    registro.pu = dayjs(registro.pu).format('MM-DD-YY')
+    registro.del = dayjs(registro.del).format('MM-DD-YY');
     registro.rate = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(dolar)
   }
   res.render('detail', {
-    registro: resultado[0]
+    registro: resultado[0],
   })
 });
 
 // ELIMINAR UN REGISTRO
 router.get('/delete/:registroId', auth, async (req, res) => {
+  console.log(req.params.registroId);
   const [resultado] = await RegistroModel.deleteById(req.params.registroId);
   res.redirect('/data')
 });
@@ -135,10 +141,37 @@ router.post('/createUser',
       return res.json(errors.array());
     }
     req.body.pass = bcrypt.hashSync(req.body.pass, 11);
-
     const resultado = await RegistroModel.createUser(req.body);
     res.redirect('/data');
   })
+
+// --->  CREACIÓN JSON Y CONVERTIR XLSX < -- \\
+
+
+router.get('/download', auth, async (req, res) => {
+  const [data] = await RegistroModel.getAll();
+  fs.writeFileSync('public/files/archivo.json', JSON.stringify(data));
+  const workBook = xlsx.utils.book_new();
+  const workSheet = xlsx.utils.json_to_sheet(jsonObject);
+  xlsx.utils.book_append_sheet(workBook, workSheet);
+  xlsx.writeFile(workBook, "public/files/liveRoadBackup.xlsx");
+  res.redirect('/files/liveRoadBackup.xlsx');
+})
+
+router.get('/update', auth, async (req, res) => {
+  const [data] = await RegistroModel.getAll();
+  fs.writeFileSync('public/files/archivo.json', JSON.stringify(data));
+  const workBook = xlsx.utils.book_new();
+  const workSheet = xlsx.utils.json_to_sheet(jsonObject);
+  xlsx.utils.book_append_sheet(workBook, workSheet);
+  xlsx.writeFile(workBook, "public/files/liveRoadBackup.xlsx");
+  res.redirect('/files/liveRoadBackup.xlsx');
+})
+
+
+
+
+
 
 // --->  CREACIÓN DE TOKEN  < -- \\
 function createToken(usuario) {

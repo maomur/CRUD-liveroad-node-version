@@ -54,8 +54,8 @@ POST http://localhost:3330/createUser
 Content-Type: application/json
 
 {
-    "username": "invitado",
-    "pass": "123456"
+    "username": "adminliveroad",
+    "pass": "#23603-Katy"
 }
 
 ###

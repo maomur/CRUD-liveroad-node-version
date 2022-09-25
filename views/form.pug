@@ -8,16 +8,15 @@ block content
                 input.form-control(type="date" name="pu" required)
             div
                 smal.text-dark DELIVERY
-                input.form-control(name="del" type="date")
+                input.form-control(name="del" type="date" required)
             div
                 input.form-control(name="loadnumber" type="text" placeholder="Load Number" required)
-            div.autocomplete
-                input.form-control(name="ocity" type="text" placeholder="O-City" id="autocomplete-input")
-                ul.autocomplete-results(id="autocomplete-results")
-            div.autocompleteDcity
-                input.form-control(name="dcity" type="text" placeholder="D-City" id="autocomplete-inputDcity")
-                ul.autocomplete-resultsDcity(id="autocomplete-resultsDcity")
-
+            div 
+                input.form-control(placeholder="Ocity" type="text" name="ocity" id="ocity")
+                div.ocityResults.d-none.itemResult
+            div 
+                input.form-control(placeholder="Dcity" type="text" name="dcity" id="dcity")
+                div.dcityResults.d-none.itemResult
             div
                 input.form-control(name="commodity" type="text" placeholder="Commodity" required)
             div
@@ -43,120 +42,5 @@ block content
                 div.p-1
                     a.btn.bg-dark.text-light(href ="/data" value="Cancel") Cancelar
 
-    script.
-            //Autocomplete Ocity Input
-            let inputOcity = document.getElementById('autocomplete-input');
-            let autocomplete_results = document.getElementById('autocomplete-results')
-            inputOcity.addEventListener('keyup', (e)=>{
-            autocomplete_results.style.display = "block"
-                let key = e.target.value;
-                if(key.length > 1){
-                    search(key)
-                }
-            });
-
-
-            const search = (key)=>{
-                fetch(`https://restcountries.com/v3.1/name/${key}`)
-                .then( (res) => res.json())
-                .then( (data) => {
-                    if(Array.isArray(data)){
-                    build_list(data.map( (item)=>{
-                        return item.name.common
-                    }))
-                    } else{
-                      autocomplete_results.innerHTML = `<li>No hay resultados</li>`
-                    }
-                })
-                .catch( (error)=>console.log(error))
-            }
-
-            const build_list = (items = [])=>{
-                autocomplete_results.innerHTML = "";
-                items.map( (item)=>{
-                    autocomplete_results.innerHTML += `<li>${item}</li>`
-                })
-            }
-
-            autocomplete_results.addEventListener('click', (e)=>{
-                if(e.target && e.target.nodeName == 'LI'){
-                    inputOcity.value = e.target.innerHTML;
-                    build_list();
-                    autocomplete_results.style.display = "none"
-
-                }
-            })
-
-            // ------------ end ----------------
-
-
-            //Autocomplete Dcity Input
-            let inputDcity = document.getElementById('autocomplete-inputDcity');
-            let autocomplete_resultsDcity = document.getElementById('autocomplete-resultsDcity')
-            inputDcity.addEventListener('keyup', (e)=>{
-            autocomplete_resultsDcity.style.display = "block"
-                let key = e.target.value;
-                if(key.length > 1){
-                    searchDcity(key)
-                }
-            });
-
-
-            const searchDcity = (key)=>{
-                fetch(`https://restcountries.com/v3.1/name/${key}`)
-                .then( (res) => res.json())
-                .then( (data) => {
-                    if(Array.isArray(data)){
-                    build_listDcity(data.map( (item)=>{
-                        return item.name.common
-                    }))
-                    } else{
-                      autocomplete_resultsDcity.innerHTML = `<li>No hay resultados</li>`
-                    }
-                })
-                .catch( (error)=>console.log(error))
-            }
-
-            const build_listDcity = (items = [])=>{
-                autocomplete_resultsDcity.innerHTML = "";
-                items.map( (item)=>{
-                    autocomplete_resultsDcity.innerHTML += `<li>${item}</li>`
-                })
-            }
-
-            autocomplete_resultsDcity.addEventListener('click', (e)=>{
-                if(e.target && e.target.nodeName == 'LI'){
-                    inputDcity.value = e.target.innerHTML;
-                    build_listDcity();
-                    autocomplete_resultsDcity.style.display = "none"
-
-                }
-            })
-
-            // ------------ end ----------------
-
-            //Format Phone
-            const brokerPhoneInput = document.getElementById("brokerPhone");
-            brokerPhoneInput.addEventListener("keypress", phonenumberFormatter);
+    script(src='../javascripts/form.js')
             
-            function phonenumberFormatter(){
-            const inputField = document.getElementById('brokerPhone');
-            const formattedInputValue = formatPhoneNumber(inputField.value);
-            inputField.value = formattedInputValue;
-            };
-
-
-            function formatPhoneNumber(value){
-                if (!value) return value;
-                const phoneNumber = value.replace(/[^\d]/g, '');
-                const phoneNumberLength = phoneNumber.length;
-                if (phoneNumberLength < 4) return phoneNumber;
-                if (phoneNumberLength < 7) {
-                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-                }
-                return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(
-                3,
-                6
-                )}-${phoneNumber.slice(6, 9)}`;
-            }
-            //-------------- End --------------------------

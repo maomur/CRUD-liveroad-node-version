@@ -19,6 +19,14 @@ const checkToken = async (req, res, next) => {
     next();
 }
 
+const comfirmDelete = (req, res, next) => {
+    if (req.params.registroId) {
+        console.log('Mensaje desde el middle');
+        return res.redirect('/data')
+    }
+
+    next();
+}
 
 const auth = async (req, res, next) => {
     const username = req.session.username;
@@ -34,5 +42,5 @@ const auth = async (req, res, next) => {
 
 
 module.exports = {
-    checkToken, auth
+    checkToken, auth, comfirmDelete
 }

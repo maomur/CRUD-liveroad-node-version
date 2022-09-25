@@ -2,45 +2,47 @@ extends layout.pug
 
 block content 
     .container.bg-light 
-        div.p-2.text-right
-            a.btn.btn-success(href="/new") New
+        div.d-flex.justify-content-end
+            div.p-2.text-right
+                a.btn.btn-primary(href="/new") New
+            div.p-2.text-right
+                 a.btn.color-excel(href="/download") Download 
+                    i.bi.bi-file-earmark-excel-fill   
+    
+            
         h2.text-center.p-3 Items
-        .d-flex 
-            H3.col-2 PICKUP
-            H3.col-2 LOAD
-            H3.col-3 O-City 
-            H3.col-3 D-City 
+        .d-flex.flex-wrap.text-start
+            h3.text-item.fw-5.col-2 PICKUP
+            h3.text-item.fw-5.col-2 LOAD
+            h3.text-item.fw-5.col-3 O-City 
+            h3.text-item.fw-5.col-3 D-City 
+            h3.text-item.fw-5.col-2 - 
         hr
         .d-flex.flex-wrap
             each registro in registros
-                H4.col-2.p-2= registro.pu
-                H4.col-2.p-2= registro.loadnumber
-                H4.col-3.p-2= registro.ocity
-                H4.col-3.p-2= registro.dcity
-                div.col-2.d-flex.justify-content-end
+                h3.text-itemT.col-2.p-3= registro.pu
+                h3.text-itemT.col-2.p-3= registro.loadnumber
+                h3.text-itemT.col-3.p-3= registro.ocity
+                h3.text-itemT.col-3.p-3= registro.dcity
+                div.col-2
                     a(href='detail/'+registro.id)
                      i.bi.bi-eye.text-primary.iconsize
                     a(href='edit/'+registro.id)
                      i.bi.bi-pencil-square.text-warning.iconsize
-                    a(data-bs-toggle="modal" data-bs-target="#exampleModal")
-                     i.bi.bi-trash3-fill.text-danger.iconsize     
-           
+                    a.onclickButton(href='/delete/'+registro.id onclick='return confirm("Item will be deleted, are you sure?")')
+                        i.bi.bi-trash3-fill.text-danger.iconsize
         hr
+        div
+            p.p-3.text-left Results: #{registros.length}
 
-        div.modal.fade(id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true")
-            div.modal-dialog
-                div.modal-content
-                    div.modal-header.main-color.text-light
-                        h5.modal-title(id="exampleModalLabel") Warning!
-                    div.modal-body
-                        p Item will be deleted, are you sure?
-                    div.modal-footer
-                        button.btn.btn-dark(type="button" data-bs-dismiss="modal") Cancel
-                        a.btn.main-color(href='delete/'+registro.id) Yes, delete item
+
+
+
                         
 
-        script. 
+
             
+
 
             
                       

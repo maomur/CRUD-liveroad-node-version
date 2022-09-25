@@ -13,6 +13,10 @@ const getAll = () => {
     return db.query('SELECT * FROM registros');
 }
 
+// Recuperar Localidades
+const getLoc = () => {
+    return db.query('SELECT * FROM locations')
+}
 
 // Ver un Único Registro
 const getById = (registroId) => {
@@ -23,7 +27,6 @@ const getById = (registroId) => {
 const getByLoad = (loadnumber) => {
     return db.query('SELECT * FROM registros WHERE loadnumber = ?', [loadnumber])
 }
-
 
 // Editar un Registro
 const update = (registroId, { pu, del, loadnumber, ocity, dcity, commodity, brokercompany, brokername, brokerphone, phoneextension, rate, truck, paidunpaid }) => {
@@ -58,5 +61,5 @@ const getByUser = (username) => {
 
 
 module.exports = {
-    getByLoad, create, deleteById, getAll, getById, update, createUser, getByUser, getUser
+    getByLoad, create, deleteById, getAll, getById, update, createUser, getByUser, getUser, getLoc
 }

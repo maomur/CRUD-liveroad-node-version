@@ -57,7 +57,7 @@ a:hover {
 
 .grid-details {
   display: grid;
-  align-items: flex-end;
+  align-items: flex-start;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
@@ -81,10 +81,19 @@ a:hover {
   padding-top: 5px;
 }
 
-.footer {
+.footerM {
   font-size: 0.8rem;
   text-align: right;
   padding: 0.8rem;
+  color: rgb(82, 0, 0);
+}
+
+.footerM a {
+  color: rgb(82, 0, 0);
+}
+
+.footer:hover {
+  color: green;
 }
 
 .btnhover:hover {
@@ -95,46 +104,54 @@ a:hover {
   font-size: 1rem;
 }
 
-.autocomplete-results {
-  background-color: white;
-  padding: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  display: none;
+.text-item {
+  font-size: 80%;
+  font-weight: 700;
+}
+
+.text-itemT {
+  font-size: 80%;
+  font-weight: 600;
+}
+
+.color-excel {
+  background-color: #1d6f42;
+}
+
+
+.ocityResults,
+.dcityResults {
   position: absolute;
-  margin-top: 3px;
 }
 
-.autocomplete-resultsDcity {
+
+.ocityResults p {
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 230px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding: 5%;
   background-color: white;
-  padding: 1rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-  display: none;
-  position: absolute;
-  margin-top: 3px;
+  color: rgb(124, 124, 124);
 }
 
-.autocomplete-results li {
-  list-style: none;
-  color: rgb(73, 73, 73);
-  padding: 3px;
-  cursor: pointer;
-}
-
-.autocomplete-resultsDcity li {
-  list-style: none;
-  color: rgb(73, 73, 73);
-  padding: 3px;
-  cursor: pointer;
-}
-
-.autocomplete-results li:hover {
+.ocityResults p:hover {
   color: black;
   font-weight: 600;
 }
 
-.autocomplete-resultsDcity li:hover {
+.dcityResults p {
+  cursor: pointer;
+  font-size: 0.9rem;
+  width: 230px;
+  margin: 1px 5px;
+  padding: 5%;
+  background-color: white;
+  color: rgb(124, 124, 124);
+}
+
+.dcityResults p:hover {
   color: black;
   font-weight: 600;
 }
