@@ -29,10 +29,10 @@ router.post('/login', async function (req, res) {
   const username = req.body.username;
   const pass = req.body.pass;
 
-  if (!username || !pass || username != "adminliveroad" || pass != "#23603-Katy") {
+  if (!username || !pass || username != "XXXXXXX" || pass != "XXXXXXXXX") {
     res.redirect('/');
-  } else if (username === "adminliveroad" && pass === "#23603-Katy") {
-    req.session.username = "adminliveroad";
+  } else if (username === "XXXXXXXXX" && pass === "XXXXXXXXXXXX") {
+    req.session.username = "XXXXXXXXXXXXXX";
     req.session.admin = true;
     res.redirect('/data');
   }
